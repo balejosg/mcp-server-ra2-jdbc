@@ -1,0 +1,83 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.dam.accesodatos'
+version = '1.0.0'
+description = 'Esqueleto MCP para RA2: Acceso a datos mediante conectores (JDBC)'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo.spring.io/milestone'
+        content {
+            excludeGroup 'org.springframework.boot'
+        }
+    }
+    maven {
+        url 'https://repo.spring.io/snapshot'
+        content {
+            excludeGroup 'org.springframework.boot'
+        }
+    }
+}
+
+ext {
+    springAiVersion = '1.0.0-M1'
+}
+
+dependencies {
+    // Spring Boot Starters
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring AI MCP Server - Comentado hasta que esté disponible
+    // implementation "org.springframework.ai:spring-ai-mcp-server-spring-boot-starter:${springAiVersion}"
+
+    // RA2: JDBC - Acceso a datos mediante conectores
+
+    // Spring JDBC (NO Spring Data JPA - solo JDBC puro)
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // Base de datos H2 (en memoria para desarrollo y tests)
+    runtimeOnly 'com.h2database:h2'
+
+    // Procesamiento JSON (para REST API)
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    // Validación
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Logging (incluido en spring-boot-starter)
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+
+    // Mostrar resultados de tests en consola
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = false
+    }
+}

@@ -1,0 +1,116 @@
+spring:
+  application:
+    name: mcp-server-ra2-jdbc
+
+  # Configuración de base de datos H2
+  datasource:
+    url: jdbc:h2:mem:ra2db;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # Configuración de H2 Console (para debugging)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+
+  # Inicialización de base de datos
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      continue-on-error: false
+
+  # Jackson para JSON (ya incluido en spring-boot-starter-web)
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+# Configuración del servidor HTTP
+server:
+  port: 8082  # Puerto diferente a RA1 (8081) para poder correr ambos simultáneamente
+  error:
+    include-message: always
+    include-stacktrace: on_param
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.dam.accesodatos: DEBUG
+    org.springframework.jdbc: DEBUG
+    org.springframework.ai.mcp: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Configuración MCP Server (placeholder - se implementará cuando Spring AI MCP esté disponible)
+# Por ahora, el servidor MCP se expone via REST API en puerto 8082
+ai:
+  mcp:
+    server:
+      enabled: true
+      port: 3001  # Puerto MCP diferente a RA1 (3000)
+      host: localhost
+      tools:
+        # CE2.a: Connection Management
+        test_connection:
+          description: "Prueba la conexión a la base de datos H2 usando JDBC"
+          enabled: true
+        get_connection_info:
+          description: "Obtiene información sobre la configuración de conexión JDBC"
+          enabled: true
+
+        # CE2.b: CRUD Operations
+        create_user:
+          description: "Inserta un nuevo usuario usando PreparedStatement y retorna el ID generado"
+          enabled: true
+        find_user_by_id:
+          description: "Busca un usuario por ID usando SELECT con PreparedStatement"
+          enabled: true
+        update_user:
+          description: "Actualiza un usuario existente usando UPDATE statement"
+          enabled: true
+        delete_user:
+          description: "Elimina un usuario usando DELETE statement"
+          enabled: true
+        find_all_users:
+          description: "Obtiene todos los usuarios de la base de datos"
+          enabled: true
+
+        # CE2.c: Advanced Queries
+        find_users_by_department:
+          description: "Busca usuarios por departamento con filtro WHERE"
+          enabled: true
+        search_users:
+          description: "Busca usuarios con múltiples filtros opcionales y paginación"
+          enabled: true
+        find_users_with_pagination:
+          description: "Obtiene usuarios con paginación usando LIMIT y OFFSET"
+          enabled: true
+
+        # CE2.d: Transactions
+        transfer_data:
+          description: "Inserta múltiples usuarios en una transacción con commit/rollback"
+          enabled: true
+        batch_insert_users:
+          description: "Inserta múltiples usuarios usando batch operations"
+          enabled: true
+
+        # CE2.e: Metadata
+        get_database_info:
+          description: "Obtiene metadatos de la base de datos usando DatabaseMetaData"
+          enabled: true
+        get_table_columns:
+          description: "Obtiene metadatos de las columnas de una tabla usando ResultSetMetaData"
+          enabled: true
+
+        # CE2.f: Stored Procedures (Avanzado)
+        execute_count_by_department:
+          description: "Ejecuta función almacenada que cuenta usuarios por departamento"
+          enabled: true

@@ -1,0 +1,37 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IDE
+.vscode/
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# H2 Database files (generated at runtime)
+*.db
+*.trace.db
+
+# Local test files
+Test*.class
+Test*.java
+
+# MCP local configurations
+*mcp*.json
+*mcp*.js
+*.sh
