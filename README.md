@@ -200,27 +200,6 @@ Transacción manual con commit/rollback.
 - ✅ Ejemplo de estructura de código
 - ✅ Notas pedagógicas
 
-### Orden de Implementación Recomendado
-
-#### Semana 1-2: CRUD Básico (CE2.b)
-1. `deleteUser()` - Más simple, sigue patrón de `findUserById()`
-2. `findAll()` - Iterar ResultSet con while
-3. Verificar con tests
-
-#### Semana 3-4: Consultas Avanzadas (CE2.c)
-4. `findUsersByDepartment()` - WHERE simple
-5. `findUsersWithPagination()` - LIMIT/OFFSET
-6. `searchUsers()` - Filtros dinámicos (más complejo)
-
-#### Semana 5-6: Transacciones y Metadatos (CE2.d, CE2.e)
-7. `batchInsertUsers()` - Batch operations
-8. `getConnectionInfo()` - DatabaseMetaData simple
-9. `getDatabaseInfo()` - DatabaseMetaData completo
-10. `getTableColumns()` - ResultSetMetaData
-
-#### Semana 7-8: Avanzado (CE2.f - Opcional)
-11. `executeCountByDepartment()` - CallableStatement o query directa
-
 ## 🧪 Testing
 
 ### Ejecutar Tests
